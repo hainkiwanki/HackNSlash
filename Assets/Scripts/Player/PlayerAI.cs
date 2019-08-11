@@ -3,58 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class PlayerAI : MonoBehaviour
 {
     // Test commit
     [SerializeField] GameObject m_markerPrefab;
-    [SerializeField] NavMeshAgent m_playerAIagent;
-    [SerializeField] EnemyHolder m_enemyHolder;
 
+    private NavMeshAgent m_playerAIagent;
     private GameObject m_marker;
     private float m_movementSpeed = 0.0f;
     private Vector3 m_forward, m_lastDirection;
     private float m_distanceToMarker = 0.0f;
-
-    private float m_radius = 3.0f;
-    private float m_step = 1.0f;
-    private List<Enemy> m_targetedEnemies = new List<Enemy>();
-    private bool m_isAttacking = false;
 
     public float Speed => m_movementSpeed;
 
     void Start()
     {
         m_marker = Instantiate(m_markerPrefab, Vector3.zero, Quaternion.identity);
+        m_playerAIagent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
         if(InputManager.Instance.RightClick)
         {
-            m_playerAIagent.enabled = true;
-            m_targetedEnemies.Clear();
-            m_enemyHolder.ResetEnemies();
-            m_marker.transform.position = (m_playerAIagent.destination = InputManager.Instance.MouseWorldPos);
-            m_playerAIagent.enabled = false;
-            Vector3 direction = m_marker.transform.position - transform.position;
 
-            var currentPosition = transform.position;
-            for(float i = 0; i < direction.magnitude; i++)
-            {
-                currentPosition += direction.normalized * i;
-                GetEnemiesInCircleAtPoint(currentPosition);
-                i += m_step;
-                if(i > direction.magnitude)
-                {
-                    currentPosition += direction.normalized * i;
-                    GetEnemiesInCircleAtPoint(currentPosition);
-                }
-            }
-            m_targetedEnemies.Sort(SortEnemiesOnDistance);
-            StartCoroutine(AttackEnemies());
         }
 
         m_distanceToMarker = Vector3.Distance(transform.position, m_marker.transform.position);
+
         if (InputManager.Instance.LeftClick || InputManager.Instance.HoldLeftClick)
         {
             var distanceToMouse = Vector3.Distance(transform.position.NewY(0.0f), InputManager.Instance.MouseWorldPos.NewY(0.0f));
@@ -92,6 +69,11 @@ public class PlayerAI : MonoBehaviour
         }
     }
 
+    public void SetFocus(Transform _newFocus)
+    {
+        m_marker.transform.position = _newFocus.position;
+    }
+
     private Vector3 OffsetRaycastedPos(Vector3 _pos)
     {
         var dir = _pos - transform.position;
@@ -108,45 +90,5 @@ public class PlayerAI : MonoBehaviour
             return hitInfo.point;
         }
         return m_marker.transform.position;
-    }
-
-    private void GetEnemiesInCircleAtPoint(Vector3 _center)
-    {
-        foreach(var enemy in m_enemyHolder.m_enemies)
-        {
-            if (!m_targetedEnemies.Contains(enemy))
-            {
-                var distance = Vector3.Distance(_center, enemy.transform.position);
-                var playerToEnemy = enemy.transform.position - transform.position;
-                var playerToEnd = m_marker.transform.position - transform.position;
-                var dotProduct = Vector3.Dot(playerToEnemy, playerToEnd.normalized);
-                if(dotProduct > 0 && dotProduct <= playerToEnd.magnitude && distance <= m_radius)
-                {
-                    m_targetedEnemies.Add(enemy);
-                    enemy.SelectEnemy();
-                }
-            }
-        }
-    }
-
-    private int SortEnemiesOnDistance(Enemy _e1, Enemy _e2)
-    {
-        var distE1 = Vector3.Distance(transform.position, _e1.transform.position);
-        var distE2 = Vector3.Distance(transform.position, _e2.transform.position);
-        return distE1.CompareTo(distE2);
-    }
-
-    IEnumerator AttackEnemies()
-    {
-        m_isAttacking = true;
-        for(int i = 0; i < m_targetedEnemies.Count; i++)
-        {
-            var direction = (transform.position - m_targetedEnemies[i].transform.position).normalized * 0.3f;
-            transform.position = m_targetedEnemies[i].transform.position - direction;
-            yield return new WaitForSeconds(0.2f);
-        }
-        transform.position = m_marker.transform.position;
-        m_isAttacking = false;
-        m_playerAIagent.enabled = true;
     }
 }
