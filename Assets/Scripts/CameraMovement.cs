@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] Transform m_player;
-    [SerializeField] float m_smoothSpeed = 10.0f;
     [SerializeField] Vector3 m_offset;
 
     private void Start()
@@ -16,6 +15,6 @@ public class CameraMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, m_player.position + m_offset, m_smoothSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, m_player.position + m_offset, 0.2f);
     }
 }
