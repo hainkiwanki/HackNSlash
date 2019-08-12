@@ -6,28 +6,54 @@ using UnityEngine.AI;
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerAI : MonoBehaviour
 {
-    private PlayerMotor m_playerMotor;
+    [SerializeField] GameObject m_marker;
 
+    private PlayerMotor m_playerMotor;
+    private float m_ignoreRadius = 0.3f;
+    private GameObject m_target;
 
     public float Speed => 0.0f;
 
     void Awake()
     {
         m_playerMotor = GetComponent<PlayerMotor>();
+        m_target = Instantiate(m_marker, transform.position, Quaternion.identity);
     }
 
     void Update()
     {
         if(InputManager.ClickedLMB)
-        {
-            // Left-click
-            m_playerMotor.MoveToPosition(InputManager.MouseWP.NewY(0.0f));
-        }
+            Debug.Log("Click LMB");
 
-        if(InputManager.ClickedRMB)
+        if (InputManager.HoldingLMB)
+            Debug.Log("Holding LMB");
+
+        //m_holdCountdown = m_holdTimer;
+        //var mouseWP = InputManager.MouseWP.NewY(0.0f);
+        //if (mouseWP != Vector3.zero)
+        //{
+        //    m_playerMotor.MoveToPosition(mouseWP);
+        //    m_target.transform.position = mouseWP;
+        //}
+
+
+        //var mouseWP = InputManager.MouseWP.NewY(0.0f);
+        //var distance = Vector3.Distance(transform.position, mouseWP);
+        //if (distance <= m_ignoreRadius)
+        //{
+        //    mouseWP = (transform.position + transform.forward * 2.0f * m_ignoreRadius).NewY(0.0f);
+        //}
+
+        if (InputManager.ClickedRMB)
         {
             // Right-click
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, m_ignoreRadius);
     }
 
     //private void Update()
@@ -41,7 +67,7 @@ public class PlayerAI : MonoBehaviour
     //        {
     //            m_marker.transform.position = InputManager.Instance.MouseWorldPos;
     //        }
-        
+
     //        if(InputManager.Instance.HoldLeftClick && distanceToMouse <= 0.5f)
     //        {
     //            m_marker.transform.position = OffsetRaycastedPos(RayCastTowardsPlayer(InputManager.Instance.MouseWorldPos));

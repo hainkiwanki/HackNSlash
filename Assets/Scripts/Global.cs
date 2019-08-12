@@ -10,4 +10,9 @@ public class Global : Singleton<Global>
 
         InputManager.Init();
     }
+
+    private void Update()
+    {
+        InputManager.Update();
+    }
 }

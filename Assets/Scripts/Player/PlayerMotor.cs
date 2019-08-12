@@ -21,7 +21,7 @@ public class PlayerMotor : MonoBehaviour
     {
         if(m_target != null)
         {
-            m_agent.destination = m_target.position;
+            MoveToPosition(m_target.position);
         }
     }
 
