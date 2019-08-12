@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "Items/")]
+[CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
 public class Item : ScriptableObject
 {
-    public delegate void OnItemPickUp();
-    public OnItemPickUp onItemPickUpCallback;
+    public uint UUID => m_uuid;
+    public string Name => m_itemName;
+    public Sprite Icon => m_icon;
 
-    
+    [SerializeField] uint m_uuid;
+    [SerializeField] string m_itemName;
+    [SerializeField] Sprite m_icon;
+
+    protected virtual void Use() { }
 }

@@ -76,6 +76,7 @@ public class PlayerAI : MonoBehaviour
         if (onFocusChangeCallback != null)
             onFocusChangeCallback.Invoke(_newTarget);
 
+        // Forget about previous target before setting new one
         if(m_target != _newTarget && m_target != null)
         {
             m_target.OnForget();

@@ -36,14 +36,12 @@ public class PlayerMotor : MonoBehaviour
         {
             m_agent.stoppingDistance = _newTarget.Radius * 0.8f;
             m_agent.updateRotation = false;
-
             m_target = _newTarget.transform;
         }
         else
         {
             m_agent.stoppingDistance = 0.0f;
             m_agent.updateRotation = true;
-
             m_target = null;
         }
     }
