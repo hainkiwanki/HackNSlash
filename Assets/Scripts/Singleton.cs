@@ -6,11 +6,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T m_instance;
 
-    public static T Instance => m_instance;
+    public static T Inst => m_instance;
 
     private void Awake()
     {
-        _OnAwake();
         if (m_instance == null)
         {
             m_instance = (T)FindObjectOfType(typeof(T));
@@ -24,6 +23,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 DontDestroyOnLoad(singletonObject);
             }
         }
+        _OnAwake();
     }
 
     protected virtual void _OnAwake() {}
