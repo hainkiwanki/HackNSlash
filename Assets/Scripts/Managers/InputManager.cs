@@ -58,7 +58,7 @@ public static class InputManager
         Ray ray = m_cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         int layerMask = (1 << 8);
-        if (Physics.Raycast(ray, out hit, 50.0f, layerMask))
+        if (Physics.Raycast(ray, out hit, 999.0f, layerMask))
         {
             return hit.point;
         }
