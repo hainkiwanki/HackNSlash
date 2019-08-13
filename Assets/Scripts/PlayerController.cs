@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         if (InputManager.ClickedLMB)
         {
-            var mouseWP = InputManager.MouseWP.NewY(0.0f);
+            var mouseWP = InputManager.MouseWP;
             if (mouseWP != Vector3.zero)
             {
                 m_playerMotor.MoveToPosition(mouseWP);
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
         if (InputManager.HoldingLMB)
         {
-            var mouseWP = InputManager.MouseWP.NewY(0.0f);
+            var mouseWP = InputManager.MouseWP;
             if (mouseWP != Vector3.zero)
             {
                 var distance = Vector3.Distance(transform.position.NewY(0.0f), mouseWP);
