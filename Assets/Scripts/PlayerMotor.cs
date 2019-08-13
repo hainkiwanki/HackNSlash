@@ -13,7 +13,7 @@ public class PlayerMotor : MonoBehaviour
     private void Awake()
     {
         m_agent = GetComponent<NavMeshAgent>();
-        GetComponent<PlayerAI>().onFocusChangeCallback += OnTargetChanged;
+        GetComponent<PlayerController>().onFocusChangeCallback += OnTargetChanged;
     }
 
     public void MoveToPosition(Vector3 _position)

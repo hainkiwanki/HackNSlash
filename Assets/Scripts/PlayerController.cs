@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(PlayerMotor))]
-public class PlayerAI : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float Speed => 0.0f;
 

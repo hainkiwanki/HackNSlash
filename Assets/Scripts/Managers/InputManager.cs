@@ -22,6 +22,7 @@ public static class InputManager
     public static bool HoldingLMB => m_LMBCounter >= HOLD_FRAMES_TRIGGER_AMOUNT;
     public static bool HoldingRMB => m_RMBCounter >= HOLD_FRAMES_TRIGGER_AMOUNT;
     public static Vector2 DeltaMousePos => new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+    public static float Zoom => Input.GetAxisRaw("Mouse ScrollWheel");
 
     /// <summary>
     /// Returns the mouse world position
