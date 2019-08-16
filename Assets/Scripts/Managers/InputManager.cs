@@ -23,6 +23,7 @@ public static class InputManager
     public static bool HoldingRMB => m_RMBCounter >= HOLD_FRAMES_TRIGGER_AMOUNT;
     public static Vector2 DeltaMousePos => new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
     public static float Zoom => Input.GetAxisRaw("Mouse ScrollWheel");
+    public static bool HasOpenedInventory => Input.GetKeyDown(KeyCode.I);
 
     /// <summary>
     /// Returns the mouse world position
@@ -50,19 +51,33 @@ public static class InputManager
         IsInitialized = true;
     }
 
-    private static Vector3 MouseWorldPosition()
+    private static Vector3 MouseWorldPosition(int _layerMask = (1 << 8))
     {
         if (m_cam == null)
             return Vector3.zero;
 
         Ray ray = m_cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        int layerMask = (1 << 8);
-        if (Physics.Raycast(ray, out hit, 999.0f, layerMask))
+        if (Physics.Raycast(ray, out hit, 999.0f, _layerMask))
         {
             return hit.point;
         }
     
         return Vector3.zero;
+    }
+
+    public static Interactable GetInteractableClickedOn()
+    {
+        if (m_cam == null)
+            return null;
+
+        Ray ray = m_cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 999.0f, (1 << 10)))
+        {
+            return hit.collider.gameObject.GetComponent<Interactable>();
+        }
+
+        return null;
     }
 }

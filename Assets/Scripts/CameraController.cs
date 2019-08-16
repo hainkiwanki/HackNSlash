@@ -22,15 +22,6 @@ public class CameraController : MonoBehaviour
     {
         m_cam = Camera.main;
         m_playerPos = m_player.position + Vector3.up * 0.5f;
-
-        var screens = Screen.resolutions;
-        var currentScreen = Screen.currentResolution;
-        for (int i = 0; i < screens.Length; i++)
-        {
-            if (screens[i].height == currentScreen.height && screens[i].width == currentScreen.width)
-                Debug.Log("This screen resolution is: " + screens[i]);
-        }
-
         m_cam.orthographic = true;
         transform.rotation = Quaternion.Euler(30.0f, 40.0f, 0.0f);
         m_offset = -50.0f;
@@ -40,9 +31,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        float screenRatio = (float)Screen.width / (float)Screen.height;
-        screenRatio /= (16.0f / 9.0f);
-        m_cam.orthographicSize = 7.5f * screenRatio;
+        m_cam.orthographicSize = 7.5f * Global.Inst.ScreenMod;
 
         if (m_destination != null)
         {

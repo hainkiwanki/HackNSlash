@@ -9,10 +9,10 @@ public class PlayerController : MonoBehaviour
     public float Speed => 0.0f;
 
     [SerializeField] Interactable m_marker;
+    [SerializeField] GameObject m_inventory;
 
     private PlayerMotor m_playerMotor;
     private float m_ignoreRadius = 0.3f;
-    private bool m_hasSetFocus = false;
     private Interactable m_visualTarget;
     private Interactable m_target;
 
@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
         {
             // Right-click
         }
+
+        if (InputManager.HasOpenedInventory)
+            if (m_inventory != null)
+                m_inventory.SetActive(!m_inventory.activeSelf);
     }
 
     void UpdateLMB()
@@ -40,13 +44,22 @@ public class PlayerController : MonoBehaviour
         if (InputManager.ClickedLMB)
         {
             var mouseWP = InputManager.MouseWP;
-            if (mouseWP != Vector3.zero)
+            var interactable = InputManager.GetInteractableClickedOn();
+            if (interactable != null)
             {
-                m_playerMotor.MoveToPosition(mouseWP);
-                m_visualTarget.transform.position = mouseWP;
+                interactable.OnFocus(transform);
+                SetTargetFocus(interactable);
             }
+            else
+            {
+                if (mouseWP != Vector3.zero)
+                {
+                    m_playerMotor.MoveToPosition(mouseWP);
+                    m_visualTarget.transform.position = mouseWP;
+                }
 
-            m_playerMotor.MoveToPosition(m_visualTarget.transform.position);
+                m_playerMotor.MoveToPosition(m_visualTarget.transform.position);
+            }
         }
 
         if (InputManager.HoldingLMB)
@@ -64,9 +77,8 @@ public class PlayerController : MonoBehaviour
             SetTargetFocus(m_visualTarget);
         }
 
-        if (InputManager.ReleasedLMB)
+        if (InputManager.ReleasedLMB && m_target == null)
         {
-            m_hasSetFocus = false;
             SetTargetFocus(null);
         }
     }

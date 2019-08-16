@@ -4,7 +4,7 @@ public class Interactable : MonoBehaviour
 {
     public float Radius => m_radius;
 
-    [SerializeField] float m_radius = 1.0f;
+    [SerializeField] float m_radius = 0.5f;
 
     private bool m_isFocussed = false;
     private bool m_hasInteracted = false;
@@ -25,7 +25,7 @@ public class Interactable : MonoBehaviour
 
     protected virtual void Interact()
     {
-        Debug.Log("Interacted");
+        Destroy(gameObject);
     }
 
     public void OnFocus(Transform _playerTransform)
