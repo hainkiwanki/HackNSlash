@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Global : Singleton<Global>
 {
+    private Resolution m_screenResolution;
+    private Resolution m_windowResolution;
+
     protected override void _OnAwake()
     {
         base._OnAwake();

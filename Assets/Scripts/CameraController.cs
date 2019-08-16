@@ -31,7 +31,6 @@ public class CameraController : MonoBehaviour
                 Debug.Log("This screen resolution is: " + screens[i]);
         }
 
-        // transform.rotation = Quaternion.Euler(70.0f, 45.0f, 0.0f);
         m_cam.orthographic = true;
         transform.rotation = Quaternion.Euler(30.0f, 40.0f, 0.0f);
         m_offset = -50.0f;
