@@ -8,12 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     public float Speed => 0.0f;
 
-    [SerializeField] Interactable m_marker;
     [SerializeField] GameObject m_inventory;
 
     private PlayerMotor m_playerMotor;
     private float m_ignoreRadius = 0.3f;
-    private Interactable m_visualTarget;
     private Interactable m_target;
 
     public delegate void OnFocusChanged(Interactable _newTarget);
@@ -22,7 +20,6 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         m_playerMotor = GetComponent<PlayerMotor>();
-        m_visualTarget = Instantiate(m_marker, transform.position, Quaternion.identity);
     }
 
     void Update()
@@ -47,18 +44,15 @@ public class PlayerController : MonoBehaviour
             var interactable = InputManager.GetInteractableClickedOn();
             if (interactable != null)
             {
-                interactable.OnFocus(transform);
                 SetTargetFocus(interactable);
             }
             else
             {
+                SetTargetFocus(null);
                 if (mouseWP != Vector3.zero)
                 {
                     m_playerMotor.MoveToPosition(mouseWP);
-                    m_visualTarget.transform.position = mouseWP;
                 }
-
-                m_playerMotor.MoveToPosition(m_visualTarget.transform.position);
             }
         }
 
@@ -69,17 +63,10 @@ public class PlayerController : MonoBehaviour
             {
                 var distance = Vector3.Distance(transform.position.NewY(0.0f), mouseWP);
                 if (distance > m_ignoreRadius)
-                    m_visualTarget.transform.position = mouseWP;
+                    m_playerMotor.MoveToPosition(mouseWP);
                 else
-                    m_visualTarget.transform.position = transform.position + (transform.forward * m_ignoreRadius * 2.0f);
+                    m_playerMotor.MoveToPosition(transform.position + (transform.forward * m_ignoreRadius * 2.0f));
             }
-
-            SetTargetFocus(m_visualTarget);
-        }
-
-        if (InputManager.ReleasedLMB && m_target == null)
-        {
-            SetTargetFocus(null);
         }
     }
 
