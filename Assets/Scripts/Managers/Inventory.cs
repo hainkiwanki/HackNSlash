@@ -39,7 +39,7 @@ public class Inventory : Singleton<Inventory>
 
     private const int INVENTORY_COLUMNS = 20;
     private const int INVENTORY_ROWS = 6;
-    private const float SLOT_SIZE = 40.0f;
+    private const float SLOT_SIZE = 20.0f;
     private List<Item> m_itemsOwned;
 
     private Dictionary<EItemSize, GridLayout> m_itemGridLayouts;
@@ -64,9 +64,9 @@ public class Inventory : Singleton<Inventory>
                                     2 * SLOT_SIZE, 3 * SLOT_SIZE) },
         };
         m_inventorySlots = new List<Slot>();
-        for(int i = 0; i < INVENTORY_COLUMNS; i++)
+        for(int i = 0; i < INVENTORY_ROWS; i++)
         {
-            for(int j = 0; j < INVENTORY_ROWS; j++)
+            for(int j = 0; j < INVENTORY_COLUMNS; j++)
             {
                 m_inventorySlots.Add(new Slot(j, i));
             }
@@ -76,9 +76,9 @@ public class Inventory : Singleton<Inventory>
     public void AddItem(Item _item)
     {
         var slots = m_itemGridLayouts[_item.m_itemSize].slotLayout;
-        for (int i = 0; i < INVENTORY_COLUMNS; i++)
+        for (int i = 0; i < INVENTORY_ROWS; i++)
         {
-            for (int j = 0; j < INVENTORY_ROWS; j++)
+            for (int j = 0; j < INVENTORY_COLUMNS; j++)
             {
                 var gridSlots = CheckIfFit(j, i, slots);
                 if (gridSlots.Count <= 0)
@@ -99,8 +99,9 @@ public class Inventory : Singleton<Inventory>
         {
             var slot = m_inventorySlots[_slotIndices[i]];
             slot.isFree = false;
+            m_inventorySlots[_slotIndices[i]] = slot;
         }
-        var firstSlot = m_inventorySlots[0];
+        var firstSlot = m_inventorySlots[_slotIndices[0]];
         m_itemsOwned.Add(_item);
         var item = Instantiate(m_itemUIPrefab, m_itemGridLayer);
         item.Init(_item, m_itemGridLayouts[_item.m_itemSize].ImageSize);
@@ -113,7 +114,7 @@ public class Inventory : Singleton<Inventory>
         for(int i = 0; i < _slots.GetLength(0); i++)
         {
             int index = SlotToIndex(_x + _slots[i,0], _y + _slots[i,1]);
-            if (!IsSlotFree(index))
+            if (IsSlotFree(index) == false)
             {
                 indices.Clear();
                 return indices;
@@ -157,6 +158,6 @@ public class Inventory : Singleton<Inventory>
 
     private int SlotToIndex(int _x, int _y)
     {
-        return _x * INVENTORY_COLUMNS + _y;
+        return _y * INVENTORY_COLUMNS + _x;
     }
 }

@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class ItemUI : MonoBehaviour
 {
+    [HideInInspector]
     public Item m_item;
+
+    [SerializeField] Image m_border;
 
     private Image m_image;
     private RectTransform m_rectTransform;
@@ -20,6 +23,7 @@ public class ItemUI : MonoBehaviour
         m_image = gameObject.GetComponent<Image>();
         m_rectTransform = gameObject.GetComponent<RectTransform>();
         m_rect = m_rectTransform.rect;
+        //m_border.gameObject.SetActive(false);
 
         SetSprite(_item.m_icon);
         SetImageSize(_width, _height);
@@ -28,7 +32,7 @@ public class ItemUI : MonoBehaviour
     public void SetSprite(Sprite _sprite)
     {
         m_image.sprite = _sprite;
-        m_image.preserveAspect = true;
+        m_image.preserveAspect = false;
     }
 
     public void SetImageSize(float _w, float _h)
