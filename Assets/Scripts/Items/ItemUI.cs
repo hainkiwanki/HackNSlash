@@ -21,7 +21,7 @@ public class ItemUI : MonoBehaviour
         m_rectTransform = gameObject.GetComponent<RectTransform>();
         m_rect = m_rectTransform.rect;
 
-        SetSprite(_item.Icon);
+        SetSprite(_item.m_icon);
         SetImageSize(_width, _height);
     }
 
