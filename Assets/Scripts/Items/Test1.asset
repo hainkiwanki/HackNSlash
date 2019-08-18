@@ -15,3 +15,4 @@ MonoBehaviour:
   m_uuid: 1
   m_itemName: Test item 1
   m_icon: {fileID: 21300000, guid: c2439655c3225694b80afbeb012590d3, type: 3}
+  m_itemSize: 3
