@@ -3,22 +3,25 @@ using UnityEngine.UI;
 
 public class ItemUI : MonoBehaviour
 {
+    public Item m_item;
+
     private Image m_image;
     private RectTransform m_rectTransform;
     private Rect m_rect;
 
-    public void Init(Sprite _sprite, Vector2 _size)
+    public void Init(Item _item, Vector2 _size)
     {
-        Init(_sprite, _size.x, _size.y);
+        Init(_item, _size.x, _size.y);
     }
 
-    public void Init(Sprite _sprite, float _width, float _height)
+    public void Init(Item _item, float _width, float _height)
     {
+        m_item = _item;
         m_image = gameObject.GetComponent<Image>();
         m_rectTransform = gameObject.GetComponent<RectTransform>();
         m_rect = m_rectTransform.rect;
 
-        SetSprite(_sprite);
+        SetSprite(_item.Icon);
         SetImageSize(_width, _height);
     }
 

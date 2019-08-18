@@ -103,7 +103,7 @@ public class Inventory : Singleton<Inventory>
         var firstSlot = m_inventorySlots[0];
         m_itemsOwned.Add(_item);
         var item = Instantiate(m_itemUIPrefab, m_itemGridLayer);
-        item.Init(_item.Icon, m_itemGridLayouts[_item.Size].ImageSize);
+        item.Init(_item, m_itemGridLayouts[_item.Size].ImageSize);
         item.SetImagePosition(new Vector3(SLOT_SIZE * firstSlot.x, -SLOT_SIZE * firstSlot.y));
     }
 
