@@ -11,6 +11,6 @@
     - Player movement: Player can move by left-clicking or by holding left-click. Player is an AI agent on a nav mesh.
     - Input: Left and right mouse click, left mouse hold. And some keys
 - __Inventory System__
-    - Grid based *18/08/2019*
-    - Can add items *18/08/2019*
+    - Grid based *(18/08/2019)*
+    - Can add items *(18/08/2019)*
 
