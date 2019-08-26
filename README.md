@@ -1,6 +1,9 @@
 # Project_HackNSlash
  Personal game project heavily inspired by games such as Diablo3, Path of Exile, Dungeon Siege I and II
  
+# Build
+ If the game doesn't run properly in Unity, try downloading the lastest build [here](https://drive.google.com/uc?authuser=0&id=1DL89-futjgo5a3lUSTM56ngmdclpOB8d&export=download)
+ 
 # Logs
 
 ## August 2019
