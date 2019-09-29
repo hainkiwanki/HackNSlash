@@ -37,9 +37,9 @@ public class Inventory : Singleton<Inventory>
     [SerializeField] Transform m_itemGridLayer;
     [SerializeField] ItemUI m_itemUIPrefab;
 
-    private const int INVENTORY_COLUMNS = 20;
+    private const int INVENTORY_COLUMNS = 16;
     private const int INVENTORY_ROWS = 6;
-    private const float SLOT_SIZE = 20.0f;
+    private const float SLOT_SIZE = 50.0f;
     private List<Item> m_itemsOwned;
 
     private Dictionary<EItemSize, GridLayout> m_itemGridLayouts;
