@@ -45,6 +45,12 @@ public class Inventory : Singleton<Inventory>
     private Dictionary<EItemSize, GridLayout> m_itemGridLayouts;
     private List<Slot> m_inventorySlots;
 
+    [Button]
+    public void Test()
+    {
+        Debug.Log("test");
+    }
+
     protected override void _OnAwake()
     {
         base._OnAwake();
