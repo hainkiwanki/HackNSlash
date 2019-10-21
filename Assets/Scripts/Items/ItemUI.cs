@@ -5,39 +5,33 @@ public class ItemUI : MonoBehaviour
 {
     [HideInInspector]
     public Item m_item;
+    public Image m_image;
 
     [SerializeField] Image m_border;
 
-    private Image m_image;
-    private RectTransform m_rectTransform;
-    private Rect m_rect;
+    public RectTransform m_rectTransform;
+    public Rect m_rect;
 
-    public void Init(Item _item, Vector2 _size)
-    {
-        Init(_item, _size.x, _size.y);
-    }
-
-    public void Init(Item _item, float _width, float _height)
+    public void Init(Item _item, Vector2 _itemSize, Vector3 _itemPosition)
     {
         m_item = _item;
-        m_image = gameObject.GetComponent<Image>();
-        m_rectTransform = gameObject.GetComponent<RectTransform>();
+        m_rectTransform = GetComponent<RectTransform>();
         m_rect = m_rectTransform.rect;
-        //m_border.gameObject.SetActive(false);
 
         SetSprite(_item.m_icon);
-        SetImageSize(_width, _height);
+        SetImageSize(_itemSize);
+        SetImagePosition(_itemPosition);
     }
 
     public void SetSprite(Sprite _sprite)
     {
         m_image.sprite = _sprite;
-        m_image.preserveAspect = false;
+        m_image.preserveAspect = true;
     }
 
-    public void SetImageSize(float _w, float _h)
+    public void SetImageSize(Vector2 _size)
     {
-        m_rectTransform.sizeDelta = new Vector2(_w, _h);
+        m_rectTransform.sizeDelta = _size;
     }
 
     public void SetImagePosition(Vector3 _pos)

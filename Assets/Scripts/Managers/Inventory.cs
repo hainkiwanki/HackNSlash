@@ -6,164 +6,92 @@ public struct Slot
 {
     public int x;
     public int y;
-    public bool isFree;
+    public Item itemRef;
 
-    public Slot(int _x = 0, int _y = 0)
+    public Slot(int _x = -1, int _y = -1, Item _itemRef = null)
     {
         x = _x;
         y = _y;
-        isFree = true;
-    }
-}
-
-public struct GridLayout
-{
-    public int[,] slotLayout;
-    public float width;
-    public float height;
-
-    public Vector2 ImageSize => new Vector2(width, height);
-
-    public GridLayout(int[,] _slots, float _w, float _h)
-    {
-        slotLayout = _slots;
-        width = _w;
-        height = _h;
+        itemRef = _itemRef;
     }
 }
 
 public class Inventory : Singleton<Inventory>
 {
+    private const int C_INVENTORY_COLUMNS = 16;
+    private const int C_INVENTORY_ROWS = 6;
+    private const float C_SLOT_SIZE = 32.0f;
+
     [SerializeField] Transform m_itemGridLayer;
     [SerializeField] ItemUI m_itemUIPrefab;
 
-    private const int INVENTORY_COLUMNS = 16;
-    private const int INVENTORY_ROWS = 6;
-    private const float SLOT_SIZE = 50.0f;
-    private List<Item> m_itemsOwned;
 
-    private Dictionary<EItemSize, GridLayout> m_itemGridLayouts;
-    private List<Slot> m_inventorySlots;
-
-    [Button]
-    public void Test()
-    {
-        Debug.Log("test");
-    }
+    private Item[,] m_inventorySlots;
 
     protected override void _OnAwake()
     {
         base._OnAwake();
 
-        m_itemsOwned = new List<Item>();
-        m_itemGridLayouts = new Dictionary<EItemSize, GridLayout>
-        {
-            { EItemSize.OneByOne,   new GridLayout( new int[1,2]{ { 0, 0 } }, 
-                                    SLOT_SIZE, SLOT_SIZE) },
-            { EItemSize.OneByTwo,   new GridLayout( new int[2,2]{ { 0, 0 }, { 0, 1 } }, 
-                                    SLOT_SIZE, 2 * SLOT_SIZE) },
-            { EItemSize.OneByThree, new GridLayout( new int[3,2]{ { 0, 0 }, { 0, 1 }, { 0, 2 } }, 
-                                    SLOT_SIZE, 3 * SLOT_SIZE) },
-            { EItemSize.TwoByTwo,   new GridLayout( new int[4,2]{ { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } }, 
-                                    2 * SLOT_SIZE, 2 * SLOT_SIZE) },
-            { EItemSize.TwoByThree, new GridLayout( new int[6,2]{ { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 } }, 
-                                    2 * SLOT_SIZE, 3 * SLOT_SIZE) },
-        };
-        m_inventorySlots = new List<Slot>();
-        for(int i = 0; i < INVENTORY_ROWS; i++)
-        {
-            for(int j = 0; j < INVENTORY_COLUMNS; j++)
-            {
-                m_inventorySlots.Add(new Slot(j, i));
-            }
-        }
+        m_inventorySlots = new Item[C_INVENTORY_COLUMNS, C_INVENTORY_ROWS];
     }
 
     public void AddItem(Item _item)
     {
-        var slots = m_itemGridLayouts[_item.m_itemSize].slotLayout;
-        for (int i = 0; i < INVENTORY_ROWS; i++)
+        List<Slot> slotResult = new List<Slot>();
+        bool canFit = CheckInventorySlots(_item.GetGridLayout(), ref slotResult);
+        if(canFit)
         {
-            for (int j = 0; j < INVENTORY_COLUMNS; j++)
+            AddToInventory(slotResult, _item);
+        }
+        else
+        {
+            Logger.LogError("Could not fit item in inventory", Color.red);
+        }
+    }
+
+    private bool CheckInventorySlots(Slot[] _itemGridLayout, ref List<Slot> _outSlots)
+    {
+        for(int row = 0; row < C_INVENTORY_ROWS; row++) // y
+        {
+            for (int column = 0; column < C_INVENTORY_COLUMNS; column++) // x
             {
-                var gridSlots = CheckIfFit(j, i, slots);
-                if (gridSlots.Count <= 0)
-                    continue;
-                else
+                for (int i = 0; i < _itemGridLayout.Length; i++)
                 {
-                    AddItem(gridSlots, _item);
-                    return;
+                    Slot slot = _itemGridLayout[i];
+                    int x = column + slot.x;
+                    int y = row + slot.y;
+                    if (x >= C_INVENTORY_COLUMNS || y >= C_INVENTORY_ROWS || m_inventorySlots[x, y] != null)
+                    {
+                        break;
+                    }
+
+                    _outSlots.Add(new Slot(x, y));
                 }
+                if (_outSlots.Count == _itemGridLayout.Length)
+                    return true;
+                else
+                    _outSlots.Clear();
             }
+            if (_outSlots.Count == _itemGridLayout.Length)
+                return true;
+            else
+                _outSlots.Clear();
         }
+
+        return false;
     }
 
-    private void AddItem(List<int> _slotIndices, Item _item)
+    private void AddToInventory(List<Slot> _slots, Item _item)
     {
-        var slotAmt = _slotIndices.Count;
-        for (int i = 0; i < slotAmt; i++)
+        // Code wise
+        foreach(var slot in _slots)
         {
-            var slot = m_inventorySlots[_slotIndices[i]];
-            slot.isFree = false;
-            m_inventorySlots[_slotIndices[i]] = slot;
+            m_inventorySlots[slot.x, slot.y] = _item;
         }
-        var firstSlot = m_inventorySlots[_slotIndices[0]];
-        m_itemsOwned.Add(_item);
-        var item = Instantiate(m_itemUIPrefab, m_itemGridLayer);
-        item.Init(_item, m_itemGridLayouts[_item.m_itemSize].ImageSize);
-        item.SetImagePosition(new Vector3(SLOT_SIZE * firstSlot.x, -SLOT_SIZE * firstSlot.y));
-    }
-
-    private List<int> CheckIfFit(int _x, int _y, int[,] _slots)
-    {
-        List<int> indices = new List<int>();
-        for(int i = 0; i < _slots.GetLength(0); i++)
-        {
-            int index = SlotToIndex(_x + _slots[i,0], _y + _slots[i,1]);
-            if (IsSlotFree(index) == false)
-            {
-                indices.Clear();
-                return indices;
-            }
-
-            indices.Add(index);
-        }
-        return indices;
-    }
-
-    private bool IsSlotFree(int _index)
-    {
-        return m_inventorySlots[_index].isFree;
-    }
-
-    private Slot IndexToSlot(int _index)
-    {
-        int amountOfSlots = m_inventorySlots.Count;
-        if(_index > amountOfSlots)
-        {
-            Logger.LogError("Out of bounds index", Color.red);
-            return new Slot(-1, -1);
-        }
-
-        int row = (int)(_index / INVENTORY_COLUMNS);
-        int column = _index % INVENTORY_COLUMNS;
-        for (int i = 0; i < amountOfSlots; i++)
-        {
-            if (m_inventorySlots[i].x == row && m_inventorySlots[i].y == column)
-                return m_inventorySlots[i];
-        }
-
-        Logger.LogError("Something went horribly wrong", Color.red);
-        return new Slot(-1, -1);
-    }
-
-    private int SlotToIndex(Slot _slot)
-    {
-        return SlotToIndex(_slot.x, _slot.y);
-    }
-
-    private int SlotToIndex(int _x, int _y)
-    {
-        return _y * INVENTORY_COLUMNS + _x;
+        // GUI wise
+        ItemUI itemUI = Instantiate(m_itemUIPrefab, m_itemGridLayer);
+        var width = ((_slots[_slots.Count - 1].x - _slots[0].x) + 1) * C_SLOT_SIZE;
+        var height = ((_slots[_slots.Count - 1].y - _slots[0].y) + 1) * C_SLOT_SIZE;
+        itemUI.Init(_item, new Vector2(width, height), new Vector3(_slots[0].x * C_SLOT_SIZE, -_slots[0].y * C_SLOT_SIZE));
     }
 }
