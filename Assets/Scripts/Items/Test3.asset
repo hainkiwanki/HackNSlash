@@ -15,5 +15,5 @@ MonoBehaviour:
   m_uuid: 3
   m_itemName: Test item 3
   m_icon: {fileID: 21300000, guid: 21b513cd22141ff4aa3511204596851f, type: 3}
-  m_itemSize: 4
-  isStackable: 0
+  m_gridLayout: 1
+  m_isStackable: 0
