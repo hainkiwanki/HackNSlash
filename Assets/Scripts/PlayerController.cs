@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
     void UpdateLMB()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (InputManager.ClickedLMB)
         {
             var mouseWP = InputManager.MouseWP;

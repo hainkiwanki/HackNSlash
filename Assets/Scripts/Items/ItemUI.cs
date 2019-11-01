@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemUI : MonoBehaviour
+public class ItemUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [HideInInspector]
     public Item m_item;
@@ -37,5 +38,21 @@ public class ItemUI : MonoBehaviour
     public void SetImagePosition(Vector3 _pos)
     {
         m_rectTransform.anchoredPosition = _pos.ToVector2();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Debug.Log("Dragging item");
+        transform.position = eventData.position;
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 }
