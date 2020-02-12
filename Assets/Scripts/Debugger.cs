@@ -10,24 +10,24 @@ public class Debugger : MonoBehaviour
     [Button("Add item 1")]
     public void AddItem1()
     {
-        Inventory.Inst.AddItem(m_Items[0]);
+        PlayerInventory.Inst.AddItem(m_Items[0]);
     }
 
     [Button("Add item 2")]
     public void AddItem2()
     {
-        Inventory.Inst.AddItem(m_Items[1]);
+        PlayerInventory.Inst.AddItem(m_Items[1]);
     }
 
     [Button("Add item 3")]
     public void AddItem3()
     {
-        Inventory.Inst.AddItem(m_Items[2]);
+        PlayerInventory.Inst.AddItem(m_Items[2]);
     }
 
     [Button("Add item 4")]
     public void AddItem4()
     {
-        Inventory.Inst.AddItem(m_Items[3]);
+        PlayerInventory.Inst.AddItem(m_Items[3]);
     }
 }
