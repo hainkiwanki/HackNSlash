@@ -1,5 +1,4 @@
-﻿using Mirror;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -39,7 +38,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void UpdateLMB()
-    { 
+    {
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
@@ -92,5 +91,11 @@ public class PlayerController : MonoBehaviour
         {
             m_target.OnFocus(transform);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, m_ignoreRadius);
     }
 }

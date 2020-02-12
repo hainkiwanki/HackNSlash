@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 public static class Logger
 {
+
     public static void LogError(string _msg,
         Color _color,
         [CallerLineNumber] int _lineNr = 0,

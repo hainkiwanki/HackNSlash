@@ -21,17 +21,17 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         m_cam = Camera.main;
-        StartCoroutine(SearchForPlayer());
+        m_playerPos = m_player.position + Vector3.up * 0.5f;
         m_cam.orthographic = true;
         transform.rotation = Quaternion.Euler(30.0f, 40.0f, 0.0f);
         m_offset = -50.0f;
+        transform.position = m_playerPos + transform.forward * m_offset;
+        transform.LookAt(m_player);
     }
 
     private void Update()
     {
         m_cam.orthographicSize = 7.5f * Global.Inst.ScreenMod;
-        if (m_player == null)
-            return;
 
         if (m_destination != null)
         {
@@ -43,22 +43,6 @@ public class CameraController : MonoBehaviour
             var destination = GetCameraPos(m_player.position);
             transform.position = Vector3.Lerp(transform.position, destination, 1f);
         }
-    }
-
-    IEnumerator SearchForPlayer()
-    {
-        while (m_player == null)
-        {
-            var go = GameObject.FindGameObjectWithTag("Player");
-            if(go != null)
-            {
-                m_player = go.transform;
-            }
-            yield return null;
-        }
-        m_playerPos = m_player.position + Vector3.up * 0.5f;
-        transform.position = m_playerPos + transform.forward * m_offset;
-        transform.LookAt(m_player);
     }
 
     private Vector3 GetCameraPos(Vector3 _positionToFocus)

@@ -941,6 +941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d302429da426267418b4021875d6e9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_marker: {fileID: -185988258956187184, guid: 7ad1b2a4445d3064391362faf5c8720c,
+    type: 3}
   m_inventory: {fileID: 0}
 --- !u!114 &7753214993349028690
 MonoBehaviour:
@@ -954,6 +956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48153b7ac5fefa448117219804f9905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_minRadiusDistance: 1
 --- !u!1 &4005575638792687658
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif 
 using UnityEngine;
 
-#if UNITY_EDITOR
-[UnityEditor.CanEditMultipleObjects]
-[UnityEditor.CustomEditor(typeof(UnityEngine.Object), true)]
+[CanEditMultipleObjects]
+[CustomEditor(typeof(UnityEngine.Object), true)]
 public class ObjectEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -44,4 +41,3 @@ public class ObjectEditor : Editor
         }
     }
 }
-#endif
