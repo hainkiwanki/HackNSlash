@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
+#if UNITY_EDITOR
 [CanEditMultipleObjects]
 [CustomEditor(typeof(UnityEngine.Object), true)]
 public class ObjectEditor : Editor
@@ -41,3 +44,4 @@ public class ObjectEditor : Editor
         }
     }
 }
+#endif

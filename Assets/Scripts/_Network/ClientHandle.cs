@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using UnityEngine;
+
+public class ClientHandle : MonoBehaviour
+{
+    public static void Welcome(Packet _packet)
+    {
+        string msg = _packet.ReadString();
+        int id = _packet.ReadInt();
+
+        Debug.Log($"Message from server: {msg}");
+        Client.Inst.myId = id;
+        ClientSend.WelcomeReceived();
+
+        // Now that we have the client's id, connect UDP
+        Client.Inst.udp.Connect(((IPEndPoint)Client.Inst.tcp.socket.Client.LocalEndPoint).Port);
+    }
+
+    public static void SpawnPlayer(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+        string _username = _packet.ReadString();
+        Vector3 _position = _packet.ReadVector3();
+        Quaternion _rotation = _packet.ReadQuaternion();
+
+        GameManager.Inst.SpawnPlayer(_id, _username, _position, _rotation);
+    }
+
+    public static void PlayerMovement(Packet _packet)
+    {
+        int _id = _packet.ReadInt();
+        Vector3 _position = _packet.ReadVector3();
+        Quaternion _rotation = _packet.ReadQuaternion();
+        Vector3 _goal = _packet.ReadVector3();
+
+        GameManager.Inst.SetPlayerGoal(_id, _goal);
+    }
+}

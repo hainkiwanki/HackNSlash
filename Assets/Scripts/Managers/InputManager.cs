@@ -54,7 +54,10 @@ public static class InputManager
     private static Vector3 MouseWorldPosition(int _layerMask = (1 << 8))
     {
         if (m_cam == null)
+        {
+            Init();
             return Vector3.zero;
+        }
 
         Ray ray = m_cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;

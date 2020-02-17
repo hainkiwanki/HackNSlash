@@ -23,6 +23,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 DontDestroyOnLoad(singletonObject);
             }
         }
+        else if(m_instance != this)
+        {
+            Destroy(gameObject);
+            Debug.Log($"Gameobject {gameObject.name} destroyed");
+        }
         _OnAwake();
     }
 
