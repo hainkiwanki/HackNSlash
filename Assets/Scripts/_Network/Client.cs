@@ -15,6 +15,7 @@ public class Client : Singleton<Client>
     public TCP tcp;
     public UDP udp;
 
+    private bool isConnected = false;
     private delegate void PacketHandler(Packet _packet);
     private static Dictionary<int, PacketHandler> packetHandlers;
 
@@ -29,10 +30,18 @@ public class Client : Singleton<Client>
         udp = new UDP();
     }
 
+    private void OnApplicationQuit()
+    {
+        Disconnect(); // Disconnect when the game is closed
+    }
+
+    /// <summary>Attempts to connect to the server.</summary>
     public void ConnectToServer()
     {
         InitializeClientData();
-        tcp.Connect();
+
+        isConnected = true;
+        tcp.Connect(); // Connect tcp, udp gets connected once tcp is done
     }
 
     public class TCP
@@ -94,7 +103,7 @@ public class Client : Singleton<Client>
                 int byteLength = stream.EndRead(_result);
                 if (byteLength <= 0)
                 {
-                    // TODO: Disconnect
+                    Inst.Disconnect();
                     return;
                 }
                 byte[] data = new byte[byteLength];
@@ -106,7 +115,7 @@ public class Client : Singleton<Client>
             catch (Exception _ex)
             {
                 Console.WriteLine($"Error receiving TCP data: {_ex}.");
-                // TODO: Disconnect
+                Disconnect();
             }
         }
 
@@ -161,6 +170,17 @@ public class Client : Singleton<Client>
             }
 
             return false;
+        }
+
+        /// <summary>Disconnects from the server and cleans up the TCP connection.</summary>
+        private void Disconnect()
+        {
+            Inst.Disconnect();
+
+            stream = null;
+            receivedData = null;
+            receiveBuffer = null;
+            socket = null;
         }
     }
 
@@ -217,7 +237,7 @@ public class Client : Singleton<Client>
 
                 if (data.Length < 4)
                 {
-                    // Inst.Disconnect();
+                    Inst.Disconnect();
                     return;
                 }
 
@@ -225,7 +245,7 @@ public class Client : Singleton<Client>
             }
             catch
             {
-                // Disconnect();
+                Disconnect();
             }
         }
 
@@ -248,6 +268,15 @@ public class Client : Singleton<Client>
                 }
             });
         }
+
+        /// <summary>Disconnects from the server and cleans up the UDP connection.</summary>
+        private void Disconnect()
+        {
+            Inst.Disconnect();
+
+            endPoint = null;
+            socket = null;
+        }
     }
 
     /// <summary>Initializes all necessary client data.</summary>
@@ -262,4 +291,16 @@ public class Client : Singleton<Client>
         Debug.Log("Initialized packets.");
     }
 
+    /// <summary>Disconnects from the server and stops all network traffic.</summary>
+    private void Disconnect()
+    {
+        if (isConnected)
+        {
+            isConnected = false;
+            tcp.socket.Close();
+            udp.socket.Close();
+
+            Debug.Log("Disconnected from server.");
+        }
+    }
 }

@@ -8,10 +8,12 @@ public class PlayerControllerNetwork : MonoBehaviour
     private NavMeshAgent m_navAgent;
     [SerializeField]
     private GameObject m_camera;
+    private Vector3 m_clickedMousePos;
 
     private void Start()
     {
         m_navAgent = GetComponent<NavMeshAgent>();
+        m_clickedMousePos = transform.position;
         Instantiate(m_camera, Vector3.zero, Quaternion.identity).GetComponent<CameraController>().SetPlayer(transform);
     }
 
@@ -24,8 +26,10 @@ public class PlayerControllerNetwork : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            ClientSend.PlayerMovement(InputManager.MouseWP);
+            m_clickedMousePos = InputManager.MouseWP;
+
             m_navAgent.SetDestination(InputManager.MouseWP);
         }
+        ClientSend.PlayerMovement(m_clickedMousePos);
     }
 }

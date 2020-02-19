@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
     /// <param name="_name">The player's name.</param>
     /// <param name="_position">The player's starting position.</param>
     /// <param name="_rotation">The player's starting rotation.</param>
-    public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation)
+    public void SpawnPlayer(int _id, string _username, Vector3 _position, Quaternion _rotation, Vector3 _goal)
     {
         GameObject _player;
         if (_id == Client.Inst.myId)
@@ -34,12 +34,13 @@ public class GameManager : Singleton<GameManager>
 
         _player.GetComponent<PlayerManager>().id = _id;
         _player.GetComponent<PlayerManager>().username = _username;
+        _player.GetComponent<NavMeshAgent>().destination = _goal;
         players.Add(_id, _player.GetComponent<PlayerManager>());
     }
 
     public void SetPlayerGoal(int _id, Vector3 _goal)
     {
-        Debug.Log(_id + " player count: " + players.Count);
-        players[_id].GetComponent<NavMeshAgent>().SetDestination(_goal);
+        if(players.ContainsKey(_id) && players[_id] != null)
+            players[_id].GetComponent<NavMeshAgent>().SetDestination(_goal);
     }
 }
