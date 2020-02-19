@@ -25,9 +25,8 @@ public class ClientHandle : MonoBehaviour
         string _username = _packet.ReadString();
         Vector3 _position = _packet.ReadVector3();
         Quaternion _rotation = _packet.ReadQuaternion();
-        Vector3 _goal = _packet.ReadVector3();
 
-        GameManager.Inst.SpawnPlayer(_id, _username, _position, _rotation, _goal);
+        GameManager.Inst.SpawnPlayer(_id, _username, _position, _rotation);
     }
 
     public static void PlayerMovement(Packet _packet)
@@ -35,8 +34,11 @@ public class ClientHandle : MonoBehaviour
         int _id = _packet.ReadInt();
         Vector3 _position = _packet.ReadVector3();
         Quaternion _rotation = _packet.ReadQuaternion();
-        Vector3 _goal = _packet.ReadVector3();
 
-        GameManager.Inst.SetPlayerGoal(_id, _goal);
+        if (GameManager.players.ContainsKey(_id))
+        {
+            GameManager.players[_id].transform.position = _position;
+            GameManager.players[_id].transform.rotation = _rotation;
+        }
     }
 }

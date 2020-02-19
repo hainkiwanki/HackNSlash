@@ -35,14 +35,11 @@ public class ClientSend : MonoBehaviour
 
     /// <summary>Sends player input to the server.</summary>
     /// <param name="_inputs"></param>
-    public static void PlayerMovement(Vector3 _goal)
+    public static void PlayerMovement(Vector3 _mouseWP)
     {
         using (Packet _packet = new Packet((int)ClientPackets.playerMovement))
         {
-            _packet.Write(_goal);
-            _packet.Write(GameManager.players[Client.Inst.myId].transform.rotation);
-            _packet.Write(GameManager.players[Client.Inst.myId].transform.position);
-
+            _packet.Write(_mouseWP);
             SendUDPData(_packet);
         }
     }

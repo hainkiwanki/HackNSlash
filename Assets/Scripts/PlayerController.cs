@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour
             // Right-click
         }
 
-        if (InputManager.HasOpenedInventory)
+        /*if (InputManager.HasOpenedInventory)
             if (m_inventory != null)
-                m_inventory.SetActive(!m_inventory.activeSelf);
+                m_inventory.SetActive(!m_inventory.activeSelf);*/
     }
 
     void UpdateLMB()

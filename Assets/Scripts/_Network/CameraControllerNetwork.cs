@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ECameraMode
-{
-    NONE = 0,
-    PERSPECTIVE = 1,
-    ISOMETRIC = 2,
-}
-
-public class CameraController : MonoBehaviour
+public class CameraControllerNetwork : MonoBehaviour
 {
     [SerializeField] Transform m_player;
 
@@ -21,11 +14,6 @@ public class CameraController : MonoBehaviour
     {
         m_cam = Camera.main;
         m_cam.orthographic = true;
-        m_offset = -50.0f;
-        m_playerPos = m_player.position + Vector3.up * 0.5f;
-        transform.rotation = Quaternion.Euler(30.0f, 40.0f, 0.0f);
-        transform.position = m_playerPos + transform.forward * m_offset;
-        transform.LookAt(m_player);
     }
 
     private void Update()
@@ -46,5 +34,15 @@ public class CameraController : MonoBehaviour
     private Vector3 GetCameraPos(Vector3 _positionToFocus)
     {
         return _positionToFocus + transform.forward * m_offset;
+    }
+
+    public void SetPlayer(Transform _player)
+    {
+        m_offset = -50.0f;
+        m_player = _player;
+        m_playerPos = m_player.position + Vector3.up * 0.5f;
+        transform.rotation = Quaternion.Euler(30.0f, 40.0f, 0.0f);
+        transform.position = m_playerPos + transform.forward * m_offset;
+        transform.LookAt(m_player);
     }
 }

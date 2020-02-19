@@ -14,21 +14,19 @@ public class PlayerControllerNetwork : MonoBehaviour
     {
         m_navAgent = GetComponent<NavMeshAgent>();
         m_clickedMousePos = transform.position;
-        Instantiate(m_camera, Vector3.zero, Quaternion.identity).GetComponent<CameraController>().SetPlayer(transform);
+        Instantiate(m_camera, Vector3.zero, Quaternion.identity).GetComponent<CameraControllerNetwork>().SetPlayer(transform);
     }
 
     private void FixedUpdate()
     {
-        SendInputToServer();
+        SendMouseInput();
     }
 
-    private void SendInputToServer()
+    private void SendMouseInput()
     {
         if (Input.GetMouseButton(0))
         {
             m_clickedMousePos = InputManager.MouseWP;
-
-            m_navAgent.SetDestination(InputManager.MouseWP);
         }
         ClientSend.PlayerMovement(m_clickedMousePos);
     }
