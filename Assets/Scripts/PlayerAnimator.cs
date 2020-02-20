@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] Animator m_animator;
-    [SerializeField] PlayerController m_player;
+    [SerializeField] PlayerMotor m_player;
 
     void Update()
     {
-        m_animator.SetFloat("Speed", m_player.Speed);
+        m_animator.SetFloat("velocity", m_player.m_speed);
     }
 }

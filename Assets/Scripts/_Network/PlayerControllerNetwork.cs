@@ -9,6 +9,7 @@ public class PlayerControllerNetwork : MonoBehaviour
     [SerializeField]
     private GameObject m_camera;
     private Vector3 m_clickedMousePos;
+    public float Speed => m_navAgent.velocity.sqrMagnitude;
 
     private void Start()
     {

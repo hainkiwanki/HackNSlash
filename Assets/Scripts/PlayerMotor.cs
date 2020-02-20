@@ -4,6 +4,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMotor : MonoBehaviour
 {
+    public float m_speed => m_agent.velocity.sqrMagnitude;
     private NavMeshAgent m_agent;
     private Interactable m_target;
 

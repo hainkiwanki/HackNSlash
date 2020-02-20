@@ -542,7 +542,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1847
 --- !u!114 &894369346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,6 +900,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1918667935 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7753214993349028690, guid: 572e6b117bbb4e44296e5fa387aadc68,
+    type: 3}
+  m_PrefabInstance: {fileID: 5010152965482234153}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48153b7ac5fefa448117219804f9905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1925935455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,23 +1207,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1119834601604531729, guid: 572e6b117bbb4e44296e5fa387aadc68,
-        type: 3}
-      propertyPath: m_inventory
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3937921261335784819, guid: 572e6b117bbb4e44296e5fa387aadc68,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3937921261335784819, guid: 572e6b117bbb4e44296e5fa387aadc68,
+    - target: {fileID: 3937921261335784821, guid: 572e6b117bbb4e44296e5fa387aadc68,
         type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -6336035102424746015, guid: 572e6b117bbb4e44296e5fa387aadc68, type: 3}
+      propertyPath: m_player
+      value: 
+      objectReference: {fileID: 1918667935}
+    - target: {fileID: 5010152964400084092, guid: 572e6b117bbb4e44296e5fa387aadc68,
+        type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: ebb2b8a052a5bbd4483ba5714a6ffb69, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 572e6b117bbb4e44296e5fa387aadc68, type: 3}
 --- !u!1001 &5209514780494514475
 PrefabInstance:
