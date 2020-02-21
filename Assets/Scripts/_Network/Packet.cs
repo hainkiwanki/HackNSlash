@@ -9,13 +9,15 @@ public enum ServerPackets
     welcome = 1,
     spawnPlayer,
     playerMovement,
+    playerAnimation,
 }
 
 /// <summary>Sent from client to server.</summary>
 public enum ClientPackets
 {
     welcomeReceived = 1,
-    playerMovement
+    playerMovement,
+    playerAnimation,
 }
 
 

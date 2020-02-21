@@ -287,6 +287,7 @@ public class Client : Singleton<Client>
             { (int)ServerPackets.welcome, ClientHandle.Welcome },
             { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
             { (int)ServerPackets.playerMovement, ClientHandle.PlayerMovement },
+            { (int)ServerPackets.playerAnimation, ClientHandle.PlayerAnimation },
         };
         Debug.Log("Initialized packets.");
     }

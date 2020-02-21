@@ -41,4 +41,12 @@ public class ClientHandle : MonoBehaviour
             GameManager.players[_id].transform.rotation = _rotation;
         }
     }
+
+    public static void PlayerAnimation(Packet _packet)
+    {
+        int id = _packet.ReadInt();
+        float vel = _packet.ReadFloat();
+
+        GameManager.Inst.SetAnimParams(id, vel);
+    }
 }
