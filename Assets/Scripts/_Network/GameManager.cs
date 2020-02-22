@@ -41,8 +41,6 @@ public class GameManager : Singleton<GameManager>
     {
         if(players.ContainsKey(_id))
         {
-            if (Mathf.Abs(players[_id].GetComponent<PlayerManager>().velocity - _vel) > 1)
-                Debug.Log($"{players[_id].GetComponent<PlayerManager>().velocity}, {_vel}");
             players[_id].GetComponent<PlayerManager>().velocity = _vel;
         }
     }

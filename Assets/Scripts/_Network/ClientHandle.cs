@@ -5,7 +5,7 @@ using System.Net;
 using UnityEngine;
 
 public class ClientHandle : MonoBehaviour
-{
+{ 
     public static void Welcome(Packet _packet)
     {
         string msg = _packet.ReadString();
@@ -37,7 +37,11 @@ public class ClientHandle : MonoBehaviour
 
         if (GameManager.players.ContainsKey(_id))
         {
-            GameManager.players[_id].transform.position = _position;
+            if (GameManager.players[_id].transform.position != _position && !GameManager.players[_id].snapShotPositions.Contains(_position))
+            {
+                GameManager.players[_id].snapShotPositions.Add(_position);
+            }
+            // GameManager.players[_id].transform.position = _position;
             GameManager.players[_id].transform.rotation = _rotation;
         }
     }
