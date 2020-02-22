@@ -114,7 +114,7 @@ public class Client : Singleton<Client>
             }
             catch (Exception _ex)
             {
-                Console.WriteLine($"Error receiving TCP data: {_ex}.");
+                Debug.Log($"Error receiving TCP data: {_ex}.");
                 Disconnect();
             }
         }
