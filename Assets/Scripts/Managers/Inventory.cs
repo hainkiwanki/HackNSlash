@@ -18,9 +18,9 @@ public struct Slot
 
 public class Inventory : Singleton<Inventory>
 {
-    private const int C_INVENTORY_COLUMNS = 16;
+    private const int C_INVENTORY_COLUMNS = 9;
     private const int C_INVENTORY_ROWS = 6;
-    private const float C_SLOT_SIZE = 32.0f;
+    private const float C_SLOT_SIZE = 25.0f;
 
     [SerializeField] Transform m_itemGridLayer;
     [SerializeField] ItemUI m_itemUIPrefab;
@@ -45,7 +45,8 @@ public class Inventory : Singleton<Inventory>
         }
         else
         {
-            Logger.LogError("Could not fit item in inventory", Color.red);
+            Debug.Log("Does not fit in inventory");
+            // Logger.LogError("Could not fit item in inventory", Color.red);
         }
     }
 
