@@ -8,14 +8,12 @@ public class DetectFrustrum : MonoBehaviour
     Camera m_cam;
     Renderer m_renderer;
 
-    // Start is called before the first frame update
     void Start()
     {
         m_cam = Camera.main;
         m_renderer = GetComponent<Renderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (m_renderer != null)
